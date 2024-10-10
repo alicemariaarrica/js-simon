@@ -13,6 +13,8 @@
 //5. invocare la funzione per esguirne il codice
 
 
+let arrNumeri = []
+
 function generaNum(min, max) {
     for (let i = 0; i < 5; i++) {
         arrNumeri.push(Math.floor(Math.random() * (max - min)) + min);
@@ -22,4 +24,3 @@ function generaNum(min, max) {
 generaNum(1, 10);
 
 
-let arrNumeri = []
