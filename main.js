@@ -19,8 +19,8 @@ function generaNum(min, max) {
     for (let i = 0; i < 5; i++) {
         arrNumeri.push(Math.floor(Math.random() * (max - min)) + min);
     }
-      Output.innerHTML = arrNumeri;
+      Output.innerHTML = arrNumeri.join(); //i forgot the() so the browser didn't show me the correct output
 }
-generaNum(1, 10);
+generaNum(1, 1000);
 
 
