@@ -7,35 +7,52 @@
 
 
 
-//A.Visualizzare in pagina 5 numeri casuali.
-let arrNumeri = [] //creazione dell'array di numeri da generare in ordine da manipolarlo in seguito
+// 1. Creo un array per i numeri casuali
+let arrNumeri = [];
 
-function generaNum() { //function=parola chiave per indicare al programma che sto creando una funzione //generaNum=il nome che gli do //() servono per dichiarare la funzione e possono contenere parametri
-    for (let i = 0; i < 5; i++) { //for=parola chiave //let i = 0 è un'inizializzazione di variabile che funge da contatore per tenere traccia del numero di iterazioni del ciclo. //i < 5 = Questa è la condizione e viene valutata prima di ogni iterazione. Se è vera, il ciclo continua; se è falsa, il ciclo si interrompe. //i++ = è un'incremento di 1. Dopo ogni iterazione, la variabile i viene incrementata di 1. L'operatore i++ è una forma abbreviata per i = i + 1.
-        arrNumeri.push(Math.ceil(Math.random() * 10));
-
-
-
-    }
-
-
-    document.getElementById('Output').innerHTML = arrNumeri.join(); //Output = il nome dell'id che ho denominato in HTML //innerHTML = proprietà di un elemento HTML che permette di leggere o modificare il contenuto HTML di quell'elemento e lo mostra nel browser. //I forgot the() so the browser didn't show me the correct output //join() è un metodo che appartiene agli array e combina tutti gli elementi dell'array arrNumeri in una stringa unica, separando ciascun elemento con una virgola (di default).
-
-}
-
-generaNum(); //è una 2chiamata di funzione' che serve ad invocare la funzione generaNum che quindi la fa mettere in pratica
-
-
-//B.Da lì parte un timer di 30 secondi.
-
-let arrTimer = []
-
-function Timer() {
-    for (let i = 30; i > 0; i++) {
+// 2. Creo una funzione per generare 5 numeri casuali
+function generaNum() {
+    for (let i = 0; i < 5; i++) { 
         
-
+        let numeroCasuale = Math.ceil(Math.random() * 10);
+        arrNumeri.push(numeroCasuale); 
     }
 
     
+    document.getElementById('Output').innerHTML = arrNumeri.join(', '); //---> serve per mostrare i numeri nella pagina
 }
-Timer();
+
+// 3. Chiamo la funzione per far si che appunto generi i numeri
+generaNum();
+
+// 4. Uso Timeout per far si che dopo 30 secondi i numeri si nascondino
+setTimeout(() => {
+    document.getElementById('Output').innerHTML = ''; //---> Output serve per nascondere i numeri nella pagina
+    mostraInput(); //---> Mostro gli input per l'utente
+}, 30000); 
+
+// 5. Creo una funzione per mostrare gli input
+function mostraInput() {
+    let inputSection = `<h2>Inserisci i numeri che hai visto:</h2>`;
+    for (let i = 0; i < 5; i++) {
+        inputSection += `<input type="number" class="user-input" placeholder="Numero ${i + 1}">`; //---> Creo un input per ogni numero
+    }
+    inputSection += `<button id="submit-btn">Invia</button>`; // Pulsante per inviare i numeri
+    document.getElementById('input-section').innerHTML = inputSection; // Mostriamo gli input
+
+    // 6. Creo un bottone che quando viene cliccato genera un evento
+    document.getElementById('submit-btn').addEventListener('click', () => {
+      
+        const userInputs = [];
+        const inputs = document.querySelectorAll('.user-input');
+        for (let input of inputs) {
+            userInputs.push(parseInt(input.value)); ////---> Aggiungo i valori all'array
+        }
+
+        // 7. Con filter filtro i numeri che sono stati indovinati
+        const correctNumbers = arrNumeri.filter(num => userInputs.includes(num)); 
+
+        // 8. Mostro il risultato nella pagina
+        document.getElementById('result').innerHTML = `Hai indovinato ${correctNumbers.length} numeri: ${correctNumbers.join(', ')}`;
+    });
+}
